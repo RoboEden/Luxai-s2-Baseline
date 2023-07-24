@@ -27,13 +27,17 @@ The model of the train will be saved in the runs folder. You need to modify the 
 
 # Train stronger agents
 1.**Modify reinforcement learning algorithm.** 
+
 The baseline algorithm *train.py* uses the ppo algorithm in the cleanrl library (https://github.com/vwxyzjn/cleanrl). You can use other reinforcement learning algorithms to try to train stronger agents.
 
 2.**Modify the given way of reward.** 
+
 You can help agents better learn policies by modifying the reward acquisition method or parameters. For example, you can give higher reward to resource collection so that agents can learn to collect more resources. You can modify the default parameters of the reward function in the *impl_config.py* file.
 
-3.**Modify the features of observation** 
+3.**Modify the features of observation.** 
+
 In *parsers*, you can customize and modify the feature and the generation method of reward. There may be some redundant features in the baseline, or some features are not considered. You can add and delete features according to your ideas.
 
-4.**Modify the backbone** 
+4.**Modify the backbone.** 
+
 The network's backbone adopts the resnet structure, which can be found at *policy/net.py*. You can use a more complex or simpler network structure to modify the backbone.
