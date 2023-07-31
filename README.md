@@ -38,19 +38,19 @@ The trained model will be saved in the 'runs' folder. Please ensure to modify th
 # Train stronger agents
 1.**Modify reinforcement learning algorithm.** 
 
-The current baseline algorithm *train.py* employs the ppo algorithm from the cleanrl library (https://github.com/vwxyzjn/cleanrl). However, there is room for improvement by experimenting with other state-of-the-art reinforcement learning algorithms. Consider trying different algorithms to train stronger and more efficient agents.
+The current baseline algorithm `train.py` employs the ppo algorithm from the cleanrl library (https://github.com/vwxyzjn/cleanrl). However, there is room for improvement by experimenting with other state-of-the-art reinforcement learning algorithms. Consider trying different algorithms to train stronger and more efficient agents.
 
 2.**Refine the reward acquisition method.** 
 
-Enhancing the way agents acquire rewards can significantly impact policy learning. By adjusting the reward mechanism or its parameters, agents can be guided more effectively towards desired behaviors. For instance, assigning higher rewards for resource collection could encourage agents to prioritize this behavior. Tweak the default reward function parameters located in *impl_config.py* to customize the reward system.
+Enhancing the way agents acquire rewards can significantly impact policy learning. By adjusting the reward mechanism or its parameters, agents can be guided more effectively towards desired behaviors. For instance, assigning higher rewards for resource collection could encourage agents to prioritize this behavior. Tweak the default reward function parameters located in `impl_config.py` to customize the reward system.
 
 3.**Tailor observation features to the task.** 
 
-In *parsers* allows for customization and modification of the observation features and reward generation methods. The current baseline may include redundant or overlooked features. Take the opportunity to add or remove features according to your domain knowledge and insights. This can lead to more informative observations and improved agent performance.
+In `parsers` allows for customization and modification of the observation features and reward generation methods. The current baseline may include redundant or overlooked features. Take the opportunity to add or remove features according to your domain knowledge and insights. This can lead to more informative observations and improved agent performance.
 
 4.**Experiment with network architecture.** 
 
-The current network backbone follows the resnet structure, defined in *policy/net.py*. However, it's worth exploring the impact of different network architectures on agent learning. Consider experimenting with more complex or simpler network structures to find the optimal balance between model capacity and computational efficiency.
+The current network backbone follows the resnet structure, defined in `policy/net.py`. However, it's worth exploring the impact of different network architectures on agent learning. Consider experimenting with more complex or simpler network structures to find the optimal balance between model capacity and computational efficiency.
 
 # Directory Structure
 ## Description
