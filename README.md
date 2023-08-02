@@ -9,7 +9,7 @@ More information about the Lux AI Challenge can be found on the competition page
 
 We look forward to seeing how your AI strategy performs in the competition!
 
-# Getting started
+# Getting started with RL
 To begin, create a conda environment and activate it using the following commands:
 ```
 conda env create -f environment.yml
@@ -25,15 +25,27 @@ You can monitor the training process and view various metrics using TensorBoard:
 ```
 tensorboard --logdir runs
 ```
-If you wish to use the behavior cloning imitation learning method, which allows agents to learn strategies from pre-recorded games, you can use the following command to train from a JSON file corresponding to game replays:
-```
-python train_bc.py
-```
+
 Once your agent is trained, you can have it compete in a match and generate a replay of the match using the following command:
 ```
 luxai-s2 path/to/your/main.py path/to/enemy/main.py -v 2 -o replay.html
 ```
 The trained model will be saved in the 'runs' folder. Please ensure to modify the path in the main script to correctly point to your saved model before running the game.
+
+# Learn from replays
+If you're interested in employing the behavior cloning method, a type of imitation learning that enables agents to learn strategies from previously played games, you can follow these steps to train from JSON files that correspond to game replays.
+
+To start, visit https://www.kaggle.com/datasets/kaggle/meta-kaggle and download the Episodes.csv and EpisodeAgents.csv files. Once downloaded, place them in your desired directory.
+
+To download game replays, you can execute the following command:
+```
+python download.py
+```
+This script allows you to modify arguments to download the top-ranking replays as well as customized replays based on your needs. After successfully downloading the JSON file to be learned from, simulate the learning process by running the following command:
+```
+python train_bc.py
+```
+This command initiates the behavior cloning training process, enabling you to start learning from your downloaded game replays.
 
 # Train stronger agents
 1.**Modify reinforcement learning algorithm.** 
@@ -112,3 +124,5 @@ The current network backbone follows the resnet structure, defined in `policy/ne
 - `main.py`: Main script for running the baseline.
 
 - `impl_config.py`: Configuration settings for the policy implementations.
+
+
