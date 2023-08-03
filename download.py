@@ -42,7 +42,9 @@ def read_episodes(args):
         else:
             raise FileExistsError
         return df
-
+    if not os.path.exists(EPISODE_FILE_NAME):
+        print('Lack of files. Please download csv files in https://www.kaggle.com/datasets/kaggle/meta-kaggle?resource=download!')
+        raise FileNotFoundError
     episodes_df = open_zip_file(EPISODE_FILE_NAME)
     episodes_df = episodes_df.filter(pl.col('CompetitionId') == COMPETITIONS[args.competition])
     episodes_df = episodes_df.to_pandas()

@@ -54,7 +54,7 @@ def parse_args():
         help="the discount factor gamma")
     parser.add_argument("--gae-lambda", type=float, default=0.95,
         help="the lambda for the general advantage estimation")
-    parser.add_argument("--train-num-collect", type=int, default=4096,
+    parser.add_argument("--train-num-collect", type=int, default=2048,
         help="the number of data collections in training process")
     parser.add_argument("--num-minibatches", type=int, default=16,
         help="the number of mini-batches")
@@ -77,7 +77,7 @@ def parse_args():
     parser.add_argument("--save-interval", type=int, default=100000, 
         help="global step interval to save model")
     parser.add_argument("--load-model-path", type=str, default=None,
-        help="path for trained model loading")
+        help="path for pretrained model loading")
     parser.add_argument("--evaluate-interval", type=int, default=10000,
         help="evaluation steps")
     parser.add_argument("--evaluate-num", type=int, default=5,

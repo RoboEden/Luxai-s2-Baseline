@@ -23,7 +23,6 @@ import numpy as np
 from player import Player
 ### The model path
 PATH = 'your/model/path.pth'
-PATH = './model.pth'
 ### DO NOT REMOVE THE FOLLOWING CODE ###
 agent_dict = (
     dict()

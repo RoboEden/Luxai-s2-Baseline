@@ -24,6 +24,8 @@ def parse_args():
         help="directory of the replay files")
     parser.add_argument("--max-epochs", type=int, default=100,
         help="maximum number of epochs for training")
+    parser.add_argument("--save-interval", type=int, default=100,
+        help="epochs of saving model")   
     args = parser.parse_args()
     return args
 
@@ -44,7 +46,6 @@ if __name__ =='__main__':
     count = 0
     max_epochs = args.max_epochs
     for _ in range(max_epochs):
-        # rest of the code...
         for filename in os.listdir(replay_dir):
             if filename.endswith('.json.gz'):
                 file_path = os.path.join(replay_dir, filename)
@@ -70,7 +71,7 @@ if __name__ =='__main__':
                             loss.backward()
                             optimizer.step()
                     count +=1
-                    if count>=10:
+                    if count>=args.save_interval:
                         torch.save(agent.state_dict(), "./model.pth")
                         print(f"save successfully! time cost:{time.time()-start_time}")
                         count = 0
