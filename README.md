@@ -35,7 +35,7 @@ The trained model will be saved in the 'runs' folder. Please ensure to modify th
 # Learn from replays
 If you're interested in employing the behavior cloning method, a type of imitation learning that enables agents to learn strategies from previously played games, you can follow these steps to train from JSON files that correspond to game replays.
 
-To start, visit https://www.kaggle.com/datasets/kaggle/meta-kaggle and download the Episodes.csv and EpisodeAgents.csv files. Once downloaded, place them in your workspace directory.
+To start, visit https://www.kaggle.com/datasets/kaggle/meta-kaggle and download the *Episodes.csv* and *EpisodeAgents.csv* files. Once downloaded, place them in your workspace directory.
 
 To download game replays, you can execute the following command:
 ```
