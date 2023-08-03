@@ -23,6 +23,7 @@ import numpy as np
 from player import Player
 ### The model path
 PATH = 'your/model/path.pth'
+PATH = './model.pth'
 ### DO NOT REMOVE THE FOLLOWING CODE ###
 agent_dict = (
     dict()
@@ -52,13 +53,14 @@ def agent_fn(observation, configurations):
     agent_prev_obs[player] = obs
     agent.step = step
 
+
     def torch2np(x):
         if isinstance(x, torch.Tensor):
             return x[0].detach().cpu().numpy()
         else:
             return x
     if obs["real_env_steps"] < 0:
-        action = Player.early_setup(step, obs)
+        action = Player(player,env_cfg).early_setup(step, obs)
     else:
         with torch.no_grad():
             obs = FeatureParser().parse2(game_state, player)

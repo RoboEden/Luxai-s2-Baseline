@@ -16,8 +16,8 @@ class ModelParam:
     all_channel: int = 64
 
     map_channel = 30
-    amount_distribution = "categorical"  # "beta" or "categorical"
-    spawn_distribution = "beta"  # "beta" or "categorical" or "normal" or "script"
+    amount_distribution = "categorical"
+    spawn_distribution = "beta"
 
 
 @dataclass
@@ -133,7 +133,7 @@ class EnvParam:
     map_size: int = 48
     MAX_FACTORIES: int = 5
     num_turn_per_cycle: int = 50
-    init_from_replay_ratio: float = 0.5
+    init_from_replay_ratio: float = 1
 
     act_dims: ActDims = ActDims()
     act_dims_mapping: FullAct = FullAct()

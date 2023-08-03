@@ -45,25 +45,11 @@ def _process_eval_resluts(results):
     return results
 
 def cal_mean_return(info_list, player_id):
-    """
-    计算给定player_id的平均回报。
-    
-    参数:
-        info_list: 包含sub_rewards信息的列表
-        player_id: 需要计算平均回报的玩家ID
-    
-    返回:
-        player_id的平均回报
-    """
     total_sum = 0
     num_elements = len(info_list)
-    
-    # 遍历info列表中的每个元素
     for element in info_list:
-        # 提取sub_rewards并求和
         total_sum += sum(element['agents'][player_id]['sub_rewards'].values())
     
-    # 计算均值
     return total_sum / num_elements if num_elements > 0 else 0
 
 class LuxRecordEpisodeStatistics(gym.Wrapper):
@@ -116,17 +102,11 @@ class LuxRecordEpisodeStatistics(gym.Wrapper):
             infos if self.is_vector_env else infos[0],
         )
 
-def make_env(seed):
+def make_env(seed,replay_dir):
     def thunk():
-        # env = gym.make(env_id)
-        env = LuxEnv()
+        env = LuxEnv(replay_dir)
         env = LuxRecordEpisodeStatistics(env)
-        # if capture_video:
-        #     if idx == 0:
-        #         env = gym.wrappers.RecordVideo(env, f"videos/{run_name}")
         env.seed(seed)
-        # env.action_space.seed(seed)
-        # env.observation_space.seed(seed)
         return env
 
     return thunk

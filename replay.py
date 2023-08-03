@@ -5,6 +5,7 @@ import json
 from luxai_s2 import LuxAI_S2
 import random
 import traceback
+from luxs.kit import obs_to_game_state
 
 
 def get_actions_from_replay(replay, replay_version: str):
@@ -27,7 +28,7 @@ def load_replay(env: LuxAI_S2, replay: str):
         env.reset(seed=seed)
         actions = list(get_actions_from_replay(replay, replay['version']))
 
-    return env, actions
+    return env, actions, replay
 
 
 def get_replay_list(replay_dir):
@@ -41,20 +42,29 @@ def get_replay_list(replay_dir):
 
 
 def random_init(env: LuxAI_S2, replay_dir: str):
+    from copy import deepcopy
     while True:
-        try:
-            replay_list = get_replay_list(replay_dir)
-            replay = random.choice(replay_list)
-            env, actions = load_replay(env, replay)
-            n = random.randrange(0, len(actions))
-            for i in range(n):
-                done = env.step(actions[i])[2]
-                if done['player_0']:
-                    break
+        replay_list = get_replay_list(replay_dir)
+        replay = random.choice(replay_list)
+        env, actions, replay = load_replay(env, replay)
+        n = random.randrange(0, len(actions))
+        new_actions = deepcopy(actions)
+        done = None
+        for i in range(n):
+            if i>0 and obs['player_0']['real_env_steps']>0:
+                for player in ["player_0","player_1"]:
+                    for each_id in actions[i][player]:
+                        if obs[player]['factories'][player].get(each_id) or obs[player]['units'][player].get(each_id):
+                            continue
+                        else:
+                            new_actions[i][player].pop(each_id)
+            
+            obs, _, done,_ = env.step(new_actions[i])
+            
             if done['player_0']:
-                continue
-            break
-        except:
-            traceback.print_exc()
+                break
+        if done and done['player_0']:
+            continue
+        break
 
     return env

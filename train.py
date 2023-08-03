@@ -12,9 +12,11 @@ import torch.optim as optim
 from torch.distributions.categorical import Categorical
 from torch.utils.tensorboard import SummaryWriter
 from policy.net import Net
-from luxenv import LuxSyncVectorEnv
+from luxenv import LuxSyncVectorEnv,LuxEnv
 import tree
-
+import json
+import gzip
+from luxs.load_from_replay import replay_to_state_action, get_obs_action_from_json
 from utils import save_args, save_model, load_model, eval_model, _process_eval_resluts, cal_mean_return, make_env
 
 LOG = True
@@ -32,10 +34,6 @@ def parse_args():
         help="if toggled, cuda will be enabled by default")
     parser.add_argument("--track", type=lambda x: bool(strtobool(x)), default=False, nargs="?", const=True,
         help="if toggled, this experiment will be tracked with Weights and Biases")
-    parser.add_argument("--wandb-project-name", type=str, default="cleanRL",
-        help="the wandb's project name")
-    parser.add_argument("--wandb-entity", type=str, default=None,
-        help="the entity (team) of wandb's project")
     parser.add_argument("--capture-video", type=lambda x: bool(strtobool(x)), default=False, nargs="?", const=True,
         help="whether to capture videos of the agent performances (check out `videos` folder)")
 
@@ -46,7 +44,7 @@ def parse_args():
         help="total timesteps of the experiments")
     parser.add_argument("--learning-rate", type=float, default=1e-4,
         help="the learning rate of the optimizer")
-    parser.add_argument("--num-envs", type=int, default=16,
+    parser.add_argument("--num-envs", type=int, default=8,
         help="the number of parallel game environments")
     parser.add_argument("--num-steps", type=int, default=1024,
         help="the number of steps to run in each environment per policy rollout")
@@ -56,7 +54,7 @@ def parse_args():
         help="the discount factor gamma")
     parser.add_argument("--gae-lambda", type=float, default=0.95,
         help="the lambda for the general advantage estimation")
-    parser.add_argument("--train-num-collect", type=int, default=2048,
+    parser.add_argument("--train-num-collect", type=int, default=4096,
         help="the number of data collections in training process")
     parser.add_argument("--num-minibatches", type=int, default=16,
         help="the number of mini-batches")
@@ -76,14 +74,18 @@ def parse_args():
         help="the maximum norm for the gradient clipping")
     parser.add_argument("--target-kl", type=float, default=None,
         help="the target KL divergence threshold")
-    parser.add_argument("--num_worker", type=int, default=1,
-        help="the target KL divergence threshold")
     parser.add_argument("--save-interval", type=int, default=100000, 
         help="global step interval to save model")
-    parser.add_argument("--load-model-path", type=str, default=None)
-    parser.add_argument("--evaluate-interval", type=int, default=10000)
-    parser.add_argument("--evaluate-num", type=int, default=5)
-    parser.add_argument("--eval", type=bool, default=False)
+    parser.add_argument("--load-model-path", type=str, default=None,
+        help="path for trained model loading")
+    parser.add_argument("--evaluate-interval", type=int, default=10000,
+        help="evaluation steps")
+    parser.add_argument("--evaluate-num", type=int, default=5,
+        help="evaluation numbers")
+    parser.add_argument("--replay-dir", type=str, default=None,
+        help="replay dirs to reset state")
+    parser.add_argument("--eval", type=bool, default=False,
+        help="is eval model")
     
     args = parser.parse_args()
     args.batch_size = int(args.num_envs * args.num_steps)
@@ -126,15 +128,15 @@ if __name__ == "__main__":
     torch.backends.cudnn.deterministic = args.torch_deterministic
 
     device = torch.device("cuda" if torch.cuda.is_available() and args.cuda else "cpu")
-
     # env setup
     envs = LuxSyncVectorEnv(
-        [make_env(args.seed + i) for i in range(args.num_envs)]
+        [make_env(args.seed + i,args.replay_dir) for i in range(args.num_envs)]
     )
+    
 
     agent = Net().to(device)
     if args.load_model_path is not None:
-        agent.load_state_dict(torch.load("model_400000.pth"))
+        agent.load_state_dict(torch.load(args.load_model_path))
         print('load successfully')
         if args.eval:
             import sys
@@ -242,7 +244,6 @@ if __name__ == "__main__":
                     for key in episode_sub_return.keys():
                         mean_episode_sub_return[key] = np.mean(list(map(lambda sub: sub[key], episode_sub_return_list)))
                         writer.add_scalar(f"sub_reward/{key}", mean_episode_sub_return[key], global_step)
-                    # writer.add_scalar
                 break
         # bootstrap value if not done
             if train_step >= args.max_train_step-1 or step == args.num_steps-1:  
