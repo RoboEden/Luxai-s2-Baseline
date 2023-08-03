@@ -12,7 +12,7 @@ from functools import reduce
 class GammaTransform:
     alpha: int = 2
     beta: float = 250
-    gamma_rv = gamma(alpha, scale=beta)  # gamma distribution
+    gamma_rv = gamma(alpha, scale=beta) 
     range_start = 50
     range_end = range_start + EnvConfig.max_episode_length
     scale = EnvConfig.max_episode_length * (1 / (gamma_rv.cdf(range_end) - gamma_rv.cdf(range_start)))
@@ -87,12 +87,6 @@ class Dense2RewardParser:
             else:
                 pass
             if RewardParam2.use_gamma_coe:
-                # for gen in ["water", "metal", "ore", "ice"]:
-                #     if isinstance(env_stats_rewards[player]["generation"][gen], dict):
-                #         env_stats_rewards[player]["generation"][gen]["LIGHT"] *= gamma_coe
-                #         env_stats_rewards[player]["generation"][gen]["HEAVY"] *= gamma_coe
-                #     else:
-                #         env_stats_rewards[player]["generation"][gen] *= gamma_coe
                 env_stats_rewards[player]["generation"]["lichen"] *= gamma_flipped_coe
                 for cons in ["water", "metal", "ore", "ice"]:
                     if isinstance(env_stats_rewards[player]["generation"][cons], dict):
@@ -126,10 +120,6 @@ class Dense2RewardParser:
                     win = False
 
                 if win:  # win by lichen
-                    # own_lichen = global_info[player]["lichen_count"]
-                    # enm_lichen = global_info[opp_player]["lichen_count"]
-                    # sub_rewards[team]["reward_win_lose"] = RewardParam2.win_reward_weight * (
-                    #     own_lichen - enm_lichen) / (own_lichen + 0.1)
                     sub_rewards[team]["reward_win_lose"] = RewardParam2.win_reward_weight
                 else:
                     sub_rewards[team]["reward_win_lose"] = 0

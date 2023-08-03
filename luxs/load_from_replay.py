@@ -78,11 +78,6 @@ def check(obs):
             o['player_1']['board']['lichen_strains'] = deepcopy(o['player_0']['board']['lichen_strains'])
     return obs
 
-# def feature_parse_json(feature_parser: FeatureParser, parse_data):
-#     obs, ice, ore, env_cfg = parse_data
-#     raw_feature = feature_parser.json_parser(obs, ice, ore, env_cfg)
-#     raw_feature['map_feature'] = 
-
 def replay_to_state_action(path):
     with gzip.open(path, 'rt') as f:
         data = json.load(f)

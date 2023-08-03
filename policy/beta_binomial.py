@@ -38,8 +38,6 @@ class BetaBinomial(Distribution):
 
     def __init__(self, total_count, alpha, beta, validate_args=None):
         self.total_count, self.alpha, self.beta = broadcast_all(total_count, alpha, beta)
-        # self.total_count = self.total_count.type_as(self.alpha)
-
         batch_shape = self.total_count.size()
         self._beta_distribution = Beta(self.alpha, self.beta, validate_args=validate_args)
         super(BetaBinomial, self).__init__(batch_shape, validate_args=validate_args)
@@ -86,11 +84,6 @@ class BetaBinomial(Distribution):
             return torch.lgamma(x) + torch.lgamma(y) - torch.lgamma(x + y)
 
         x, n, a, b = value, self.total_count, self.alpha, self.beta
-
-        # logit = log(p)
-        #       = log(B(x + a, n - x + b)) - log(B(a, b)) + log(n!) - log(x!) - log((n - x)!)
-        #       = log(B(x + a, n - x + b)) - log(B(a, b)) + lgamma(n+1) - lgamma(x+1) - lgamma(n - x + 1)
-
         lgamma_n = torch.lgamma(n + 1)
         lgamma_x = torch.lgamma(x + 1)
         lgamma_nmx = torch.lgamma(n - x + 1)
