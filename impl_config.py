@@ -145,17 +145,17 @@ class RewardParam:
     zero_sum: bool = False
     global_reward_weight = 0.1
     win_reward_weight: float = 0. * global_reward_weight
-    light_reward_weight: float = 0.4 * global_reward_weight
-    heavy_reward_weight: float = 4 * global_reward_weight
-    ice_reward_weight: float = 0.005 * global_reward_weight
-    ore_reward_weight: float = 0.01 * global_reward_weight
-    water_reward_weight: float = 0.01 * global_reward_weight
-    metal_reward_weight: float = 0.02 * global_reward_weight
-    power_reward_weight: float = 0.0005 * global_reward_weight
-    lichen_reward_weight: float = 0.01 * global_reward_weight
-    factory_penalty_weight: float = 5 * global_reward_weight
+    light_reward_weight: float = 0.1 * global_reward_weight
+    heavy_reward_weight: float = 1 * global_reward_weight
+    ice_reward_weight: float = 0.1 * global_reward_weight
+    ore_reward_weight: float = 0 * global_reward_weight
+    water_reward_weight: float = 0.1 * global_reward_weight
+    metal_reward_weight: float = 0 * global_reward_weight
+    power_reward_weight: float = 0.0001 * global_reward_weight
+    lichen_reward_weight: float = 0.001 * global_reward_weight
+    factory_penalty_weight: float = 1 * global_reward_weight
     lose_penalty_coe: float = 0.
-    survive_reward_weight: float = 0.1 * global_reward_weight
+    survive_reward_weight: float = 0.5 * global_reward_weight
 
 # @dataclass
 # class StatsRewardParam:
