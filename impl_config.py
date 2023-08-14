@@ -12,7 +12,7 @@ class ModelParam:
     action_queue_size: int = 20
     global_emb_dim: int = 10
     global_feature_dims: int = 32
-    n_res_blocks: int = 1
+    n_res_blocks: int = 2
     all_channel: int = 64
 
     map_channel = 30
