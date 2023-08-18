@@ -44,7 +44,7 @@ def parse_args():
         help="total timesteps of the experiments")
     parser.add_argument("--learning-rate", type=float, default=1e-4,
         help="the learning rate of the optimizer")
-    parser.add_argument("--num-envs", type=int, default=8,
+    parser.add_argument("--num-envs", type=int, default=16,
         help="the number of parallel game environments")
     parser.add_argument("--num-steps", type=int, default=1024,
         help="the number of steps to run in each environment per policy rollout")
@@ -54,7 +54,7 @@ def parse_args():
         help="the discount factor gamma")
     parser.add_argument("--gae-lambda", type=float, default=0.95,
         help="the lambda for the general advantage estimation")
-    parser.add_argument("--train-num-collect", type=int, default=2048,
+    parser.add_argument("--train-num-collect", type=int, default=4096,
         help="the number of data collections in training process")
     parser.add_argument("--num-minibatches", type=int, default=16,
         help="the number of mini-batches")
