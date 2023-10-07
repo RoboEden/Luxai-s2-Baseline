@@ -128,8 +128,8 @@ The current network backbone follows the resnet structure, defined in `policy/ne
 # Training Curves
 
 If you use the default parameters, the changes in average survival steps and average return are as follows:
-![1](https://github.com/RoboEden/Luxai-s2-Baseline/assets/72459814/0c89df43-bc49-41f6-b0d4-d26e4f204af1)
-![2](https://github.com/RoboEden/Luxai-s2-Baseline/assets/72459814/1f50f774-5877-4c2a-95d1-f50148492fb3)
+![eval_avg_episode_length (1)](https://github.com/RoboEden/Luxai-s2-Baseline/assets/72459814/008536ac-dcca-4869-be81-4f71e58f9c71)
+![eval_avg_return_own (1)](https://github.com/RoboEden/Luxai-s2-Baseline/assets/72459814/18c37172-e005-4647-b7e9-caa9a233c625)
 
 
 While training, the return will steadily increase. However, it may take roughly 2 days to train from scratch to achieve 1000 survival steps, so please maintain your patience.
