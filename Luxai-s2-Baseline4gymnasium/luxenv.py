@@ -343,7 +343,7 @@ class LuxEnv(gym.Env):
         own_id = random.randint(0, 1)
         enemy_id = 1 - own_id
 
-        obs_list = self.reset()
+        obs_list, _ = self.reset()
         done = False
         episode_length = 0
         return_own = 0
@@ -353,14 +353,15 @@ class LuxEnv(gym.Env):
             for id, policy in zip([own_id, enemy_id], [own_policy, enemy_policy]):
                 valid_action = self.get_valid_actions(id)
                 _, _, raw_action, _ = policy(
-                    np2torch([obs_list['player_'+str(id)]['global_feature']], torch.float32),
-                    np2torch([obs_list['player_'+str(id)]['map_feature']], torch.float32), 
+                    np2torch([obs_list[f'player_{id}']['global_feature']], torch.float32),
+                    np2torch([obs_list[f'player_{id}']['map_feature']], torch.float32), 
                     tree.map_structure(lambda x: np2torch([x], torch.int16), obs_list['player_'+str(id)]['action_feature']),
                     tree.map_structure(lambda x: np2torch([x], torch.bool), valid_action)
                 )
                 actions[id] = raw_action
             actions = tree.map_structure(lambda x: torch2np(x), actions)                
-            obs_list, reward, done, info = self.step(actions)
+            obs_list, reward, terminated, truncation, info = self.step(actions)
+            done = terminated | truncation
             return_own += reward[own_id]
             return_enemy += reward[enemy_id]
             episode_length += 1
