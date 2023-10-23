@@ -58,7 +58,7 @@ tensorboard-data-server==0.7.1
 termcolor==2.3.0
 toml==0.10.2
 tomli==2.0.1
-torch==2.1.0
+torch
 tornado==6.3.3
 tqdm==4.66.1
 triton==2.1.0
